@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,9 @@ namespace Cainos.PixelArtTopDown_Basic
         public float speed;
 
         private Animator animator;
+
+        public bool IsShackable { get; set; }
+        public event Action Shaked;
 
         private void Start()
         {
@@ -45,6 +49,11 @@ namespace Cainos.PixelArtTopDown_Basic
             animator.SetBool("IsMoving", dir.magnitude > 0);
 
             GetComponent<Rigidbody2D>().velocity = speed * dir;
+
+            if (IsShackable && Input.GetKeyDown(KeyCode.E))
+            {
+                Shaked?.Invoke();
+            }
         }
     }
 }
